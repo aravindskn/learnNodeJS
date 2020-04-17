@@ -1,12 +1,22 @@
 const geocode = require("./utils/geocode");
 const forecast = require("./utils/forecast");
 
-geocode("Bengaluru", (error, data) => {
-  console.log("GeoCode Error: ", error);
-  console.log("GeoCode Data: ", data);
-});
+const userInput = process.argv[2];
 
-forecast(-75.7088, 44.1545, (error, data) => {
-  console.log("Weather Error: ", error);
-  console.log("Weather Data: ", data);
-});
+if (userInput) {
+  geocode(userInput, (error, geoCodeData) => {
+    if (error != null) {
+      return console.log("GeoCode Error: ", error);
+    }
+
+    forecast(geoCodeData.lat, geoCodeData.long, (error, forecastData) => {
+      if (error != null) {
+        return console.log("Weather Error: ", error);
+      }
+      console.log("Geocode Place: ", geoCodeData.place);
+      console.log("Weather Data: ", forecastData);
+    });
+  });
+} else {
+  console.log("Please Provide a Place to Search");
+}

@@ -16,9 +16,12 @@ const geocode = (address, callback) => {
     if (error) {
       callback("Unable to Call API!", null);
     } else if (response.body.features.length == 0) {
-      callback("No Results Found!", response.body);
+      callback("No Results Found!", null);
     } else {
-      callback(null, response.body.features);
+      const lat = response.body.features[0].center[1];
+      const long = response.body.features[0].center[0];
+      const place = response.body.features[0].place_name;
+      callback(null, { lat, long, place });
     }
   });
 };
