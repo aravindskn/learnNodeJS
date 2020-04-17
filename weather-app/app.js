@@ -5,15 +5,15 @@ const userInput = process.argv[2];
 
 if (userInput) {
   geocode(userInput, (error, geoCodeData) => {
+    const { lat, long, place } = geoCodeData;
     if (error != null) {
       return console.log("GeoCode Error: ", error);
     }
-
-    forecast(geoCodeData.lat, geoCodeData.long, (error, forecastData) => {
+    forecast(lat, long, (error, forecastData) => {
       if (error != null) {
         return console.log("Weather Error: ", error);
       }
-      console.log("Geocode Place: ", geoCodeData.place);
+      console.log("Geocode Place: ", place);
       console.log("Weather Data: ", forecastData);
     });
   });

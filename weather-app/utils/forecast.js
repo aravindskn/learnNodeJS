@@ -1,31 +1,33 @@
 const request = require("request");
 
-const weatherAPIKey = "17f82e467ebe4560a98b755f448e4da6";
+const APIKey = "17f82e467ebe4560a98b755f448e4da6";
 
 //Weather API Call
 const forecast = (lat, long, callback) => {
   //API Definition
-  const weatherAPI =
+  const url =
     "https://api.weatherbit.io/v2.0/current?lat=" +
     lat +
     "&lon=" +
     long +
     "&key=" +
-    weatherAPIKey;
+    APIKey;
 
-  request({ url: weatherAPI, json: true }, (error, response) => {
+  request({ url, json: true }, (error, response) => {
+    const { body } = response;
     if (error) {
       callback("Unable to Call API!"), null;
-    } else if (response.body.error) {
-      callback(response.body.error, null);
+    } else if (body.error) {
+      callback(body.error, null);
     } else {
-      const APIResponse = response.body.data[0];
+      const APIResponse = body.data[0];
+      const { temp, precip } = APIResponse;
       callback(
         null,
         "It is currently " +
-          APIResponse.temp +
+          temp +
           " degrees out. There is " +
-          APIResponse.precip +
+          precip +
           "% chance of rain."
       );
     }
