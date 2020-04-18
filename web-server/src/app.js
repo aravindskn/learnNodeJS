@@ -43,6 +43,22 @@ app.get("/weather", (req, res) => {
   res.send([{ forecast: "placeholder", location: "placeholder" }]);
 });
 
+app.get("/help/*", (req, res) => {
+  res.render("404", {
+    title: "Help Not Found",
+    message: "The Help Page you are looking for is not currently available.",
+    name: "Aravind",
+  });
+});
+
+app.get("*", (req, res) => {
+  res.render("404", {
+    title: "Page Not Found",
+    message: "The Page you are looking for is not currently available.",
+    name: "Aravind",
+  });
+});
+
 app.listen(8080, () => {
   console.log("Listening on 8080.");
 });
