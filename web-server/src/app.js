@@ -1,12 +1,20 @@
 const express = require("express");
 const path = require("path");
+const hbs = require("hbs");
 
 const app = express();
 
+//Directory Path
 const publicDirPath = path.join(__dirname, "../public");
+const viewsDirPath = path.join(__dirname, "../templates/views/");
+const partialsDirPath = path.join(__dirname, "../templates/partials/");
 
-app.set("views", path.join(__dirname, "../views/"));
+//Directory for Handlebar
+app.set("views", viewsDirPath);
 app.set("view engine", "hbs");
+hbs.registerPartials(partialsDirPath);
+
+//Directory for Static Files
 app.use(express.static(publicDirPath));
 
 app.get("", (req, res) => {
@@ -20,6 +28,7 @@ app.get("/help", (req, res) => {
   res.render("help", {
     title: "Help Page",
     message: "This Page Provides Help",
+    name: "Aravind",
   });
 });
 
