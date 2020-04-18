@@ -40,7 +40,16 @@ app.get("/about", (req, res) => {
 });
 
 app.get("/weather", (req, res) => {
-  res.send([{ forecast: "placeholder", location: "placeholder" }]);
+  if (!req.query.address) {
+    return res.send({ error: "Please Provide an Address!" });
+  }
+  res.send([
+    {
+      forecast: "placeholder",
+      location: "placeholder",
+      address: req.query.address,
+    },
+  ]);
 });
 
 app.get("/help/*", (req, res) => {
