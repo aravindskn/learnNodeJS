@@ -18,8 +18,8 @@ weatherForm.addEventListener("submit", (e) => {
           messageTwo.textContent = "";
           messageOne.textContent = data.GeoCodeError;
         } else {
-          messageTwo.textContent = "Location: " + data[0].location;
-          messageOne.textContent = "Forecast is: " + data[0].forecast;
+          messageTwo.textContent = data[0].location;
+          messageOne.textContent = data[0].forecast;
         }
       });
     })
