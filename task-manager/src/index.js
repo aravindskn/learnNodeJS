@@ -65,6 +65,18 @@ app.patch("/users/:id", async (req, res) => {
   }
 });
 
+//Delete an User by ID
+app.delete("/users/:id", async (req, res) => {
+  const _id = req.params.id;
+  try {
+    const user = await User.findByIdAndDelete(_id);
+    if (!user) return res.status(404).send();
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).send();
+  }
+});
+
 //Tasks APIs
 
 //Create Tasks
@@ -119,6 +131,18 @@ app.patch("/tasks/:id", async (req, res) => {
     res.send(task);
   } catch (error) {
     res.status(400).send();
+  }
+});
+
+//Delete a Task by ID
+app.delete("/tasks/:id", async (req, res) => {
+  const _id = req.params.id;
+  try {
+    const task = await Tasks.findByIdAndDelete(_id);
+    if (!task) return res.status(404).send();
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).send();
   }
 });
 
