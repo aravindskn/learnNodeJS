@@ -15,25 +15,28 @@ MongoClient.connect(
     console.log("Connected to DB.");
     const db = client.db(database);
 
-    db.collection("tasks").findOne(
-      { _id: new ObjectID("5e9b3867e8b140c773d8a710") },
-      (error, task) => {
-        if (error) {
-          return console.log("Error");
-        }
-
-        console.log(task);
-      }
-    );
-
+    // db.collection("users")
+    //   .updateOne(
+    //     { _id: new ObjectID("5e9b2f6f9530c0c61d73c094") },
+    //     {
+    //       $inc: {
+    //         age: 1,
+    //       },
+    //     }
+    //   )
+    //   .then((result) => {
+    //     console.log(result);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
     db.collection("tasks")
-      .find({ completed: false })
-      .toArray((error, tasks) => {
-        if (error) {
-          return console.log("Error");
-        }
-
-        console.log(tasks);
+      .updateMany({ completed: false }, { $set: { completed: true } })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }
 );
