@@ -43,6 +43,28 @@ app.get("/users/:id", async (req, res) => {
   }
 });
 
+//Update user by ID
+app.patch("/users/:id", async (req, res) => {
+  const _id = req.params.id;
+  const updates = Object.keys(req.body);
+  const allowedUpdates = ["name", "age", "email", "password"];
+  const isValidateUpdate = updates.every((update) =>
+    allowedUpdates.includes(update)
+  );
+  if (!isValidateUpdate)
+    return res.status(400).send({ error: "Invalide Update Option!" });
+  try {
+    const user = await User.findByIdAndUpdate(_id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!user) return res.status(404).send();
+    res.send(user);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
 //Tasks APIs
 
 //Create Tasks
@@ -75,6 +97,28 @@ app.get("/tasks/:id", async (req, res) => {
     res.send(task);
   } catch (error) {
     res.status(500).send();
+  }
+});
+
+//Update task by ID
+app.patch("/tasks/:id", async (req, res) => {
+  const _id = req.params.id;
+  const updates = Object.keys(req.body);
+  const allowedUpdates = ["description", "completed"];
+  const isValidateUpdate = updates.every((update) =>
+    allowedUpdates.includes(update)
+  );
+  if (!isValidateUpdate)
+    return res.status(400).send({ error: "Invalid Update Option!" });
+  try {
+    const task = await Tasks.findByIdAndUpdate(_id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!task) return res.status(404).send();
+    res.send(task);
+  } catch (error) {
+    res.status(400).send();
   }
 });
 
