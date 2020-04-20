@@ -48,10 +48,9 @@ router.patch("/tasks/:id", async (req, res) => {
   if (!isValidateUpdate)
     return res.status(400).send({ error: "Invalid Update Option!" });
   try {
-    const task = await Tasks.findByIdAndUpdate(_id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const task = await Tasks.findById(_id);
+    updates.forEach((update) => (task[update] = req.body[update]));
+    task.save();
     if (!task) return res.status(404).send();
     res.send(task);
   } catch (error) {
