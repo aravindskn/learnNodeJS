@@ -22,14 +22,27 @@ router.post("/tasks", auth, async (req, res) => {
 
 //List all Tasks
 router.get("/tasks", auth, async (req, res) => {
+  const match = {};
+  if (req.query.completed) {
+    match.completed = req.query.completed === "true";
+  }
   try {
-    const tasks = await Tasks.find({ author: req.user._id });
-    if (!task) return res.status(404).send();
-    res.send(tasks);
+    // const tasks = await Tasks.find({author: req.user._id});
+    // if (!tasks) return res.status(404).send();
+    // res.send(tasks);
 
     //Alternative Approach
-    //await req.user.populate('tasks').execPopulate()  This is uses the relationship between user and tasks to get all tasks of a user.
-    //res.send(req.user.tasks)
+    await req.user
+      .populate({
+        path: "tasks",
+        match,
+        options: {
+          limit: parseInt(req.query.limit),
+          skip: parseInt(req.query.skip),
+        },
+      })
+      .execPopulate(); //This is uses the relationship between user and tasks to get all tasks of a user.
+    res.send(req.user.tasks);
   } catch (error) {
     res.status(500).send();
   }
