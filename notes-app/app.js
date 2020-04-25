@@ -9,6 +9,7 @@ yargs.command({
   command: "add",
   description: "Add a new note",
   builder: {
+    // Arguments for Command
     title: {
       describe: "Title for the Note.",
       demandOption: true,
@@ -21,7 +22,7 @@ yargs.command({
     },
   },
   handler(argv) {
-    notes.addNote(argv.title, argv.body);
+    notes.addNote(argv.title, argv.body); //Handler to do the add functionality
   },
 });
 
@@ -30,6 +31,7 @@ yargs.command({
   command: "remove",
   description: "Remove a note",
   builder: {
+    // Arguments for Command
     title: {
       description: "Title of the Note",
       demandOption: true,
@@ -37,7 +39,7 @@ yargs.command({
     },
   },
   handler(argv) {
-    notes.removeNote(argv.title);
+    notes.removeNote(argv.title); //Handler to do the remove functionality
   },
 });
 
@@ -46,6 +48,7 @@ yargs.command({
   command: "read",
   description: "Read Note",
   builder: {
+    // Arguments for Command
     title: {
       description: "title of your note",
       demandOption: true,
@@ -53,7 +56,7 @@ yargs.command({
     },
   },
   handler(argv) {
-    notes.readNote(argv.title);
+    notes.readNote(argv.title); //Handler to do the read functionality
   },
 });
 
@@ -62,8 +65,8 @@ yargs.command({
   command: "list",
   description: "List Notes",
   handler() {
-    notes.listNote();
+    notes.listNote(); //Handler to do the list functionality
   },
 });
 
-yargs.parse();
+yargs.parse(); //Parse JSON
